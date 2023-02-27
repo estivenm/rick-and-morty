@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    // "target": "es6",
+    // "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [".src/*"],
+      "@components/*": ["src/components/*"],
+      "@containers/*": ["src/containers/*"],
+      "@pages/*": ["src/pages/*"],
+      "@services/*": ["src/services/*"],
+      "@styles/*": ["src/styles/*"],
+      "@icons/*": ["public/assets/icons/*"],
+      "@logos/*": ["public/assets/logos/*"],
+      "@images/*": ["public/assets/images/*"],
+      "@routes/*": ["src/routes/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@context/*": ["src/context/*"]
+    }
+  }
+}
