@@ -8,13 +8,13 @@
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],
       "@styles/*": ["src/styles/*"],
-      "@icons/*": ["public/assets/icons/*"],
       "@logos/*": ["assets/logos/*"],
       "@images/*": ["assets/images/*"],
       "@routes/*": ["src/routes/*"],
       "@hooks/*": ["src/hooks/*"],
       "@helpers/*": ["src/helpers/*"],
-      "@context/*": ["src/context/*"]
+      "@context/*": ["src/context/*"],
+      "@redux/*": ["src/redux/*"]
     }
   }
 }
