@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    // "target": "es6",
-    // "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "@/*": [".src/*"],
@@ -11,8 +9,8 @@
       "@services/*": ["src/services/*"],
       "@styles/*": ["src/styles/*"],
       "@icons/*": ["public/assets/icons/*"],
-      "@logos/*": ["public/assets/logos/*"],
-      "@images/*": ["public/assets/images/*"],
+      "@logos/*": ["assets/logos/*"],
+      "@images/*": ["assets/images/*"],
       "@routes/*": ["src/routes/*"],
       "@hooks/*": ["src/hooks/*"],
       "@helpers/*": ["src/helpers/*"],
