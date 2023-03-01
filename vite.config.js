@@ -23,6 +23,7 @@ export default defineConfig({
       { find: '@hooks', replacement: path.resolve(__dirname, 'src/hooks/') },
       { find: '@pages', replacement: path.resolve(__dirname, 'src/pages/') },
       { find: '@services', replacement: path.resolve(__dirname, 'src/api/') },
+      { find: '@redux', replacement: path.resolve(__dirname, 'src/redux/') },
       {
         find: '@helpers',
         replacement: path.resolve(__dirname, 'src/helpers/')
@@ -33,7 +34,7 @@ export default defineConfig({
       },
       {
         find: '@images',
-        replacement: path.resolve(__dirname, 'public/assets/images/')
+        replacement: path.resolve(__dirname, 'src/assets/images/')
       }
     ]
   }

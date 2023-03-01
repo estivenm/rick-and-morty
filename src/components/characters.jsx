@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react'
-import CharacterItem from '@components/characterItem'
-import '@styles/Characters.scss'
 import { useDispatch, useSelector } from 'react-redux'
+import CharacterItem from '@components/characterItem'
+import useElementOnScreeen from '@hooks/useElementOnScreen'
+import { useLocalStorage } from '@hooks/useLocalStorage'
 import {
   fetchCharactersAsync,
   updateCharacters
-} from '../redux/slice/character.slice'
-import useElementOnScreeen from '@hooks/useElementOnScreen'
-import { useLocalStorage } from '@hooks/useLocalStorage'
+} from '@redux/slice/character.slice'
+import '@styles/Characters.scss'
 
 const Characters = () => {
   const initialAmountItems = 20
