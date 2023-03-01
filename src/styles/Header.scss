@@ -1,0 +1,35 @@
+.header {
+  top: 0;
+  position: sticky;
+  z-index: 1;
+  height: 120px;
+  padding: 30px 40px;
+
+  &--content {
+    display: flex;
+
+    &__logo {
+      display: flex;
+      justify-content: center;
+      height: 120px;
+      margin-left: auto;
+
+    }
+
+    &__theme {
+      margin-left: auto;
+
+      label {
+        cursor: pointer;
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+
+
+
+
+}
