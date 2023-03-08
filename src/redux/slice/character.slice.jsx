@@ -2,12 +2,12 @@ import { createLocalStorage, getLocalStorage } from '@hooks/useLocalStorage'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as servicesCharacters from '@services/rickAndMorty'
 
-const keyStorages = {
-  characters: 'characters'
-}
-
+const keyStorages = { characters: 'characters' }
 const initialState = {
-  data: getLocalStorage(keyStorages.characters) ?? [],
+  characterData: [],
+  search: { value: undefined },
+  isSearching: false,
+  info: { page: 0, maxPage: 42 },
   status: 'initial',
   error: null
 }
@@ -16,13 +16,20 @@ const charactersSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
-    addCharacters: (state, action) => {
-      state.characters.push(action.payload)
-    },
     updateCharacters: (state, action) => {
-      console.log('state', state.data)
-      state.data = action.payload
-    }
+      state.characterData = action.payload
+    },
+    addCharacters: (state, action) => {
+      const { info, characterData } = action.payload
+      state.characterData = characterData
+      state.info = info
+    },
+    updateSearch: (state, action) => {
+      const { search, page } = action.payload
+      state.search = search
+      state.info.page = page
+    },
+    reset: () => initialState
   },
   extraReducers: (builder) => {
     builder
@@ -30,9 +37,28 @@ const charactersSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(fetchCharactersAsync.fulfilled, (state, action) => {
+        const keyStorages = { characters: 'characters' }
+        const { characters, info } = action.payload
+        const { characterData, search } = state
+        const isNewSearch = search.value && info.page === 1
         state.status = 'succeeded'
-        state.data.push(...action.payload)
-        createLocalStorage(keyStorages.characters, JSON.stringify(state.data))
+        state.info = info
+
+        //Initial Search create new data
+        if (isNewSearch) {
+          state.characterData = characters
+        } else {
+          const newCharacterData = [...characterData, ...characters]
+          state.characterData = newCharacterData
+          //add data  in local storage when not have search
+          if (!search.value) {
+            const storageData = JSON.stringify(newCharacterData)
+            createLocalStorage(keyStorages.characters, storageData)
+          }
+        }
+        // valida
+        // if (state.data.length < 40) {
+        // }
       })
       .addCase(fetchCharactersAsync.rejected, (state, action) => {
         state.status = 'failed'
@@ -42,20 +68,10 @@ const charactersSlice = createSlice({
 })
 
 export const fetchCharactersAsync = createAsyncThunk(
-  'charactera/fetchCharactersAsync',
-  async (page) => await servicesCharacters.getCharacters({ page })
+  'character/fetchCharactersAsync',
+  async (filters) => await servicesCharacters.getCharacters({ filters })
 )
 
-const getCharactersAsync = async (page) => {
-  const newCharacters = await servicesCharacters.getCharacters({ page })
-  //return await getCharacters({ page })
-  //dispatch(updateCharacters(newCharacters))
-  console.log(
-    '🚀 ~ file: character.reducer.jsx:29 ~ getCharactersAsync ~ newCharacters',
-    newCharacters
-  )
-  return newCharacters
-}
-
-export const { addCharacters, updateCharacters } = charactersSlice.actions
+export const { addCharacters, updateCharacters, updateSearch, reset } =
+  charactersSlice.actions
 export default charactersSlice.reducer
