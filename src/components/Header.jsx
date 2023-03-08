@@ -3,6 +3,7 @@ import { ThemeContext } from '@context/ThemeContext'
 import imgBanner from '@images/rick-and-Morty.png'
 import '@styles/Header.scss'
 import * as icons from '@components/icons'
+import Search from '@components/Search'
 
 const Header = () => {
   const { theme, setTheme } = React.useContext(ThemeContext)
@@ -26,6 +27,7 @@ const Header = () => {
           <label htmlFor='icon-theme'>{icons[`${theme}Icon`]}</label>
         </section>
       </div>
+      <Search />
     </header>
   )
 }

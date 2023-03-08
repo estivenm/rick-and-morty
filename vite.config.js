@@ -33,6 +33,10 @@ export default defineConfig({
         replacement: path.resolve(__dirname, 'src/context/')
       },
       {
+        find: '@container',
+        replacement: path.resolve(__dirname, 'src/container/')
+      },
+      {
         find: '@images',
         replacement: path.resolve(__dirname, 'src/assets/images/')
       }

@@ -62,7 +62,7 @@ const Characters = () => {
           ))}
       </section>
       <section id='content-visor' ref={containerRef}>
-        hola
+        cargando...
       </section>
     </div>
   )
