@@ -1,0 +1,20 @@
+.App {
+  min-height: 100vh;
+}
+
+.light-theme {
+  background-color: #fafafa;
+  color: #252525;
+  transition: 0.4s ease-in;
+}
+
+.dark-theme {
+  background-color: #252525;
+  color: #fafafa;
+  transition: 0.4s ease-in;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
