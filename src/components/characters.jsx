@@ -1,50 +1,75 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CharacterItem from '@components/characterItem'
 import useElementOnScreeen from '@hooks/useElementOnScreen'
-import { useLocalStorage } from '@hooks/useLocalStorage'
-import {
-  fetchCharactersAsync,
-  updateCharacters
-} from '@redux/slice/character.slice'
+import { getLocalStorage, useLocalStorage } from '@hooks/useLocalStorage'
+import { fetchCharactersAsync } from '@redux/slice/character.slice'
 import '@styles/Characters.scss'
+import { addCharacters, updateCharacters } from '@redux/slice/character.slice'
+
+// Buscador
+// Buscar por nombre ✅
+// Buscar por nombre con scroll infinito✅
+// No permitir nuevo llamado al api cuando ya consulto la ultima pagina✅
+
+// Listar
+// Obtener listado del local storage la primera vez ✅
+// Implementar scroll infinitom y actualizar local storage ✅
+// No permitir nuevo llamado al api cuando ya consulto la ultima pagina ✅
+// Almacenar informacion el local storage hasta determinada cantidad ✅
+// Sincronizar local storage
 
 const Characters = () => {
-  const initialAmountItems = 20
-  const maxPageCharacters = 42
-
   const dispatch = useDispatch()
-  const visorRef = useRef(null)
-
-  const [containerRef, isVisible] = useElementOnScreeen({ visorRef })
-  const { data: characters } = useSelector((state) => state.characters)
   const { synchronizeLocalStorage } = useLocalStorage()
 
+  const visorRef = useRef(null)
+  const [containerRef, isVisible] = useElementOnScreeen({ visorRef })
+  const { characterData, search, info } = useSelector(
+    (state) => state.characters
+  )
+
   useEffect(() => {
-    if (isVisible) {
-      const page = getPage(
-        characters.length,
-        initialAmountItems,
-        maxPageCharacters
-      )
-      dispatch(fetchCharactersAsync(page))
+    const { page, maxPage } = info
+    const newPage = page + 1
+    const isLimitPage = newPage > maxPage
+    const filter = `page=${newPage}`
+    const newFilter = search.value ? `${filter}&${search.value}` : filter
+    const shouldLoadInitialData = isVisible && !characterData.length
+
+    // Check if characters data is not in the store
+    if (shouldLoadInitialData) {
+      handleInitialLoad(newFilter)
+      return
+    }
+    if (isVisible && !isLimitPage) {
+      dispatch(fetchCharactersAsync(newFilter))
     }
   }, [isVisible])
 
   // useEffect para sincronizar la información entre pestañas
   useEffect(() => {
     const config = { keyStorage: 'characters', typeEvent: 'storage' }
-    synchronizeLocalStorage(config, handleStorageChange)
+    synchronizeLocalStorage(config, handleLocalStorageChange)
   }, [])
 
-  function getPage(totalItems, totalItemPage, maxPage) {
-    const currentPage = totalItems / totalItemPage
-    return currentPage > maxPage ? currentPage : currentPage + 1
-  }
+  // Cargar informacion de localStorage o disparar accion
+  const handleInitialLoad = useCallback((filter) => {
+    const dataStorage = getLocalStorage('characters')
+    if (!dataStorage) {
+      dispatch(fetchCharactersAsync(filter))
+      return
+    }
+    const totalItemPage = 20
+    const maxPage = 42
+    const page = Math.ceil(dataStorage.length / totalItemPage)
+    const info = { page, maxPage }
+    dispatch(addCharacters({ characterData: dataStorage, info }))
+  }, [])
 
   // Función para manejar cambios en el local storage
-  const handleStorageChange = (event, key) => {
-    if (event.key === key) {
+  const handleLocalStorageChange = (event, key) => {
+    if (event.key === key && event.newValue) {
       dispatch(updateCharacters(JSON.parse(event.newValue)))
     }
   }
@@ -52,8 +77,8 @@ const Characters = () => {
   return (
     <div className='character-list'>
       <section className='characters'>
-        {characters?.length > 1 &&
-          characters.map((character) => (
+        {characterData?.length > 1 &&
+          characterData.map((character) => (
             <CharacterItem
               key={`${character.id}-character-${character.name}`}
               character={character}
