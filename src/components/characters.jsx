@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useCallback, useEffect, useRef } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import CharacterItem from '@components/characterItem'
 import useElementOnScreeen from '@hooks/useElementOnScreen'
 import { getLocalStorage, useLocalStorage } from '@hooks/useLocalStorage'
-import { fetchCharactersAsync } from '@redux/slice/character.slice'
+import {
+  addCharacters,
+  updateCharacters,
+  fetchCharactersAsync
+} from '@redux/slice/character.slice'
 import '@styles/Characters.scss'
-import { addCharacters, updateCharacters } from '@redux/slice/character.slice'
 
 // Buscador
 // Buscar por nombre ✅
@@ -26,7 +29,8 @@ const Characters = () => {
   const visorRef = useRef(null)
   const [containerRef, isVisible] = useElementOnScreeen({ visorRef })
   const { characterData, search, info } = useSelector(
-    (state) => state.characters
+    (state) => state.characters,
+    shallowEqual
   )
 
   useEffect(() => {
@@ -77,7 +81,7 @@ const Characters = () => {
   return (
     <div className='character-list'>
       <section className='characters'>
-        {characterData?.length > 1 &&
+        {characterData?.length > 0 &&
           characterData.map((character) => (
             <CharacterItem
               key={`${character.id}-character-${character.name}`}
@@ -86,9 +90,7 @@ const Characters = () => {
             />
           ))}
       </section>
-      <section id='content-visor' ref={containerRef}>
-        cargando...
-      </section>
+      <section id='content-visor' ref={containerRef}></section>
     </div>
   )
 }

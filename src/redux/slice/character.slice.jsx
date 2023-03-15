@@ -1,8 +1,7 @@
-import { createLocalStorage, getLocalStorage } from '@hooks/useLocalStorage'
+import { createLocalStorage } from '@hooks/useLocalStorage'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as servicesCharacters from '@services/rickAndMorty'
 
-const keyStorages = { characters: 'characters' }
 const initialState = {
   characterData: [],
   search: { value: undefined },
