@@ -8,7 +8,6 @@ const getCharacters = async ({ isMock = false, filters }) => {
     const data = await response.json()
     const page = getParamUrl(url, 'page')
     return builderResponseCharacter(data, page)
-    // return results
   } catch (error) {
     console.log('🚀 ~ file: rickAndMorty.js ~ getCharacters ~ error:', error)
     throw new Error('Error in fetching character')
