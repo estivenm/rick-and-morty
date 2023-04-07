@@ -10,18 +10,6 @@ import {
 } from '@redux/slice/character.slice'
 import '@styles/Characters.scss'
 
-// Buscador
-// Buscar por nombre ✅
-// Buscar por nombre con scroll infinito✅
-// No permitir nuevo llamado al api cuando ya consulto la ultima pagina✅
-
-// Listar
-// Obtener listado del local storage la primera vez ✅
-// Implementar scroll infinitom y actualizar local storage ✅
-// No permitir nuevo llamado al api cuando ya consulto la ultima pagina ✅
-// Almacenar informacion el local storage hasta determinada cantidad ✅
-// Sincronizar local storage
-
 const Characters = () => {
   const dispatch = useDispatch()
   const { synchronizeLocalStorage } = useLocalStorage()

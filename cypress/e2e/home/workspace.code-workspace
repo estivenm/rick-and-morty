@@ -1,0 +1,16 @@
+{
+  "folders": [
+	{
+		"path": "../../../../react-hooks"
+	},
+	{
+		"path": "../../../../react-shop"
+	},
+	{
+		"path": "../../.."
+	},
+	{
+		"path": "../../../../cypress"
+	}
+]
+}

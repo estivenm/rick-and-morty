@@ -49,7 +49,9 @@ const Header = () => {
             id='icon-theme'
             onChange={() => handleChangeTheme()}
           />
-          <label htmlFor='icon-theme'>{icons[`${theme}Icon`]}</label>
+          <label data-id='icon-theme' htmlFor='icon-theme'>
+            {icons[`${theme}Icon`]}
+          </label>
         </section>
       </div>
       <Search theme={theme} handleSearch={handleSearch} />
